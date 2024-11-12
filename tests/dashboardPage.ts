@@ -14,8 +14,9 @@ export default class DashboardPage extends LocatorsList {
 
   constructor(pageDomain: Page) {
       super(pageDomain);
-    this.pageDomain = pageDomain;
+      this.pageDomain = pageDomain;
       this.employeeID = this.getRandomSixDigitNumber().toString();
+      
       this.addAll({
         "bannerTitle":"span.oxd-topbar-header-breadcrumb",
         "firstNameTextBox":"input[name='firstName']",
