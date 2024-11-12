@@ -3,6 +3,8 @@ import { Page, Locator } from "@playwright/test";
 export default class DashboardPage {
   pageDomain: Page;
 
+  regexFormat = /^(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+
   firstNameText: string = "Malek";
   lastNameText: string = "Tubaishat";
   middleNameText: string = "abdel";

@@ -17,11 +17,11 @@ test("user_login", async ({ browser }) => {
 
   // Add New Employee with Login Details
   await page.goto(
-    "https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee"
+    "/index.php/pim/addEmployee"
   );
   for (let index = 0; index < loginPage.credentialList.length; index++) {
     const element = loginPage.credentialList[index];
-    const passwordValidation = validatePassword(element.passWord);
+    const passwordValidation = validatePassword(element.passWord,dashboardPage.regexFormat);
     if (passwordValidation) {
       await loginPage.usernameTextBox.fill(element.userName);
       await loginPage.passwordTextBox.fill(element.passWord);
@@ -73,14 +73,16 @@ test("user_login", async ({ browser }) => {
   await dashboardPage.employeeDeleteConfirmation.click();
 });
 
-function validatePassword(password: string): boolean {
-  // Regex explanation:
-  // ^ asserts the start of the string
-  // (?=.*[a-z]) checks for at least one lowercase letter
-  // (?=.*\d) checks for at least one digit
-  // [A-Za-z\d@$!%*?&]{8,} ensures the password is at least 8 characters long
-  // $ asserts the end of the string
-
-  const regex = /^(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
-  return regex.test(password);
+/**
+ * Regex explanation:
+   ^ asserts the start of the string
+   (?=.*[a-z]) checks for at least one lowercase letter
+  (?=.*\d) checks for at least one digit
+   [A-Za-z\d@$!%*?&]{8,} ensures the password is at least 8 characters long
+   $ asserts the end of the string
+   @param password - the password to be used to validate it
+   @param regExpFormat - the regex to be used to check validation
+ */
+function validatePassword(password: string,regExpFormat:RegExp): boolean {
+  return regExpFormat.test(password);
 }
