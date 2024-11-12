@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page } from "@playwright/test";
 import { LocatorsList } from "./locatorsList";
 
 export default class DashboardPage extends LocatorsList {
