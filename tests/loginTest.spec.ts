@@ -1,26 +1,9 @@
-import { test, expect, Locator } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import LoginPage from "../tests/loginPage";
 import DashboardPage from "../tests/dashboardPage";
 import { SharedContext } from "../tests/sharedContext";
 
-// Define SharedContext class outside of the test to make it accessible globally
-/*
->>> 2. Password Validation Call Optimization:
->>> a. Implement a mechanism to reduce the number of password validation calls to the server while maintaining the expected functionality.
->>> b. Verify that the password validation call is triggered correctly.
->>> d. Test the password validation API endpoint to ensure it returns accurate results for various password scenarios.
 
-3. Data Cleanup:
-a. Upon completion of each test case, clear the created data (e.g., newly created users) from the system.
-
-LoginPage Admin User e2e test
-and for clean up part please don't forget to remove all the console.log from the code 
-code review for now :
->>> 1- use camel case when you create variables and files ex: "tests/login_page.ts" no need for "_ " it should be loginPage.ts
->>> 2- use meaningful names for both "tests/example.spec.ts" should be change
->>> 3- try to move the selectors to the same file page 
-like this one https://github.com/malek-optimumpartners/training1/blob/main/tests/example.spec.ts#L36 should be moved to "tests/login_page.ts"
-*/
 
 test("user_login", async ({ browser }) => {
   const context = await browser.newContext();
