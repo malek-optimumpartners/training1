@@ -1,6 +1,7 @@
 import { Page, Locator } from "@playwright/test";
+import { LocatorsList } from "./locatorsList";
 
-export default class DashboardPage {
+export default class DashboardPage extends LocatorsList {
   pageDomain: Page;
 
   regexFormat = /^(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
@@ -10,55 +11,26 @@ export default class DashboardPage {
   middleNameText: string = "abdel";
   employeeID: string;
 
-  bannerTitle: Locator;
-  firstNameTextBox: Locator;
-  middleNameTextBox: Locator;
-  lastNameTextBox: Locator;
-  submitButton: Locator;
-  employeeTitle: Locator;
-  employeeIDTextBox: Locator;
-  employeeIDTextBoxInEmployeeList: Locator;
-  employeeListButton: Locator;
-  employeeSearchButton: Locator;
-  employeeDeleteButton: Locator;
-  employeeDeleteConfirmation: Locator;
 
   constructor(pageDomain: Page) {
+      super(pageDomain);
     this.pageDomain = pageDomain;
       this.employeeID = this.getRandomSixDigitNumber().toString();
+      this.addAll({
+        "bannerTitle":"span.oxd-topbar-header-breadcrumb",
+        "firstNameTextBox":"input[name='firstName']",
+        "middleNameTextBox":"input[name='middleName']",
+        "lastNameTextBox":"input[name='lastName']",
+        "submitButton":"button[type='submit']",
+        "employeeTitle":"div.orangehrm-edit-employee-name > h6",
+        "employeeIDTextBox":"div.oxd-grid-2>div>div>div:nth-of-type(2)>input",
+        "employeeIDTextBoxInEmployeeList":"div.oxd-form-row>div>div:nth-of-type(2)>div>div:nth-of-type(2)>input",
+        "employeeListButton":"li.oxd-topbar-body-nav-tab.--visited>a.oxd-topbar-body-nav-tab-item",
+        "employeeSearchButton":"button[type='submit']",
+        "employeeDeleteButton":"i.oxd-icon.bi-trash",
+        "employeeDeleteConfirmation":"button.orangehrm-button-margin.oxd-button--label-danger"
+    });
 
-      this.bannerTitle = this.pageDomain.locator(
-        "span.oxd-topbar-header-breadcrumb"
-      );
-      this.firstNameTextBox = this.pageDomain.locator(
-        "input[name='firstName']"
-      );
-      this.middleNameTextBox = this.pageDomain.locator(
-        "input[name='middleName']"
-      );
-      this.lastNameTextBox = this.pageDomain.locator("input[name='lastName']");
-      this.submitButton = this.pageDomain.locator("button[type='submit']");
-      this.employeeTitle = this.pageDomain.locator(
-        "div.orangehrm-edit-employee-name > h6"
-      );
-      this.employeeIDTextBox = this.pageDomain.locator(
-        "div.oxd-grid-2>div>div>div:nth-of-type(2)>input"
-      );
-      this.employeeIDTextBoxInEmployeeList = this.pageDomain.locator(
-        "div.oxd-form-row>div>div:nth-of-type(2)>div>div:nth-of-type(2)>input"
-      );
-      this.employeeListButton = this.pageDomain.locator(
-        "li.oxd-topbar-body-nav-tab.--visited>a.oxd-topbar-body-nav-tab-item"
-      );
-      this.employeeSearchButton = this.pageDomain.locator(
-        "button[type='submit']"
-      );
-      this.employeeDeleteButton = this.pageDomain.locator(
-        "i.oxd-icon.bi-trash"
-      );
-      this.employeeDeleteConfirmation = this.pageDomain.locator(
-        "button.orangehrm-button-margin.oxd-button--label-danger"
-      );
   }
 
 

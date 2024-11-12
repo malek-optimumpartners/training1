@@ -17,7 +17,7 @@ test("user_login", async ({ browser }) => {
 
   // Add New Employee with Login Details
   await page.goto(
-    "/index.php/pim/addEmployee"
+    "web/index.php/pim/addEmployee"
   );
   for (let index = 0; index < loginPage.credentialList.length; index++) {
     const element = loginPage.credentialList[index];
@@ -34,22 +34,22 @@ test("user_login", async ({ browser }) => {
           "Invalid credentials"
         );
       } else {
-        await expect(dashboardPage.bannerTitle).toHaveText("PIM");
+        await expect(dashboardPage.get("bannerTitle")).toHaveText("PIM");
       }
     }
   } //end of the for loop for passwords
-  await dashboardPage.firstNameTextBox.fill(dashboardPage.firstNameText);
-  await dashboardPage.middleNameTextBox.fill(dashboardPage.middleNameText);
-  await dashboardPage.lastNameTextBox.fill(dashboardPage.lastNameText);
-  await dashboardPage.employeeIDTextBox.fill(dashboardPage.employeeID);
+  await dashboardPage.get("firstNameTextBox").fill(dashboardPage.firstNameText);
+  await dashboardPage.get("middleNameTextBox").fill(dashboardPage.middleNameText);
+  await dashboardPage.get("lastNameTextBox").fill(dashboardPage.lastNameText);
+  await dashboardPage.get("employeeIDTextBox").fill(dashboardPage.employeeID);
 
   await Promise.all([
     page.waitForNavigation(),
-    dashboardPage.submitButton.click(),
+    dashboardPage.get("submitButton").click(),
   ]);
 
   // Ensure that the new employee is saved in the system and their login credentials are valid
-  await expect(dashboardPage.employeeTitle).toHaveText(
+  await expect(dashboardPage.get("employeeTitle")).toHaveText(
     dashboardPage.firstNameText + " " + dashboardPage.lastNameText
   );
 
@@ -60,17 +60,21 @@ test("user_login", async ({ browser }) => {
   //Data Cleanup
   //click on employee list
   await Promise.all([
-    dashboardPage.employeeListButton.click(),
+    dashboardPage.get("employeeListButton").click(),
     page.waitForNavigation(),
   ]);
-  await dashboardPage.employeeIDTextBoxInEmployeeList.fill(
+  await dashboardPage.get("employeeIDTextBoxInEmployeeList").fill(
     dashboardPage.employeeID
   );
 
   //search for the employee
-  await dashboardPage.employeeSearchButton.click();
-  await dashboardPage.employeeDeleteButton.click();
-  await dashboardPage.employeeDeleteConfirmation.click();
+  await dashboardPage.get("employeeSearchButton").highlight();
+  await dashboardPage.get("employeeSearchButton").hover();
+  await dashboardPage.get("employeeSearchButton").focus();
+  await dashboardPage.get("employeeSearchButton").click();
+  await page.waitForTimeout(1000);
+  await dashboardPage.get("employeeDeleteButton").click();
+  await dashboardPage.get("employeeDeleteConfirmation").click();
 });
 
 /**
