@@ -60,7 +60,9 @@ export default class DashboardPage {
       this.employeeDeleteButton = this.pageDomain.locator(
         "i.oxd-icon.bi-trash"
       );
-      this.employeeDeleteConfirmation=this.pageDomain.locator("button.orangehrm-button-margin.oxd-button--label-danger");
+      this.employeeDeleteConfirmation = this.pageDomain.locator(
+        "button.orangehrm-button-margin.oxd-button--label-danger"
+      );
     } catch (error) {
       console.error("Initialize locators error", error);
     }
