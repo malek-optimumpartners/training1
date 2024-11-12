@@ -17,10 +17,6 @@ export default class loginPage {
 
   constructor(pageDomain: Page) {
     this.pageDomain = pageDomain;
-    this.initializeLocators();
-  }
-
-  initializeLocators() {
     this.usernameTextBox = this.pageDomain.locator("input[name='username']");
     this.passwordTextBox = this.pageDomain.locator("input[name='password']");
     this.loginButton = this.pageDomain.locator("button[type='submit']");

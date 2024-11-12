@@ -24,15 +24,9 @@ export default class DashboardPage {
   employeeDeleteConfirmation: Locator;
 
   constructor(pageDomain: Page) {
-    if (pageDomain != null) {
-      this.pageDomain = pageDomain;
+    this.pageDomain = pageDomain;
       this.employeeID = this.getRandomSixDigitNumber().toString();
-      this.initializeLocators();
-    }
-  }
 
-  async initializeLocators() {
-    try {
       this.bannerTitle = this.pageDomain.locator(
         "span.oxd-topbar-header-breadcrumb"
       );
@@ -65,10 +59,8 @@ export default class DashboardPage {
       this.employeeDeleteConfirmation = this.pageDomain.locator(
         "button.orangehrm-button-margin.oxd-button--label-danger"
       );
-    } catch (error) {
-      console.error("Initialize locators error", error);
-    }
   }
+
 
   getRandomSixDigitNumber(): number {
     return Math.floor(100000 + Math.random() * 900000);
