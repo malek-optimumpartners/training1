@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import LoginPage from "../tests/loginPage";
 import DashboardPage from "../tests/dashboardPage";
 import { SharedContext } from "../tests/sharedContext";
-
+import { users } from "../tests/users";
 
 
 test("user_login", async ({ browser }) => {
@@ -17,39 +17,40 @@ test("user_login", async ({ browser }) => {
 
   // Add New Employee with Login Details
   await page.goto(
-    "web/index.php/pim/addEmployee"
+    "/web/index.php/pim/addEmployee"
   );
-  for (let index = 0; index < loginPage.credentialList.length; index++) {
-    const element = loginPage.credentialList[index];
-    const passwordValidation = validatePassword(element.passWord,dashboardPage.regexFormat);
+
+  for (const [key, { userName, passWord, status }] of Object.entries(users)) {
+    const passwordValidation = validatePassword(passWord,dashboardPage.regexFormat);
     if (passwordValidation) {
-      await loginPage.usernameTextBox.fill(element.userName);
-      await loginPage.passwordTextBox.fill(element.passWord);
+      await loginPage.usernameTextBox.fill(userName);
+      await loginPage.passwordTextBox.fill(passWord);
       await Promise.all([
         page.waitForNavigation(),
         await loginPage.loginButton.click(),
       ]);
-      if (element.credentialState == "fail") {
+      if (status == "fail") {
         await expect(loginPage.invalidCredential).toHaveText(
           "Invalid credentials"
         );
       } else {
-        await expect(dashboardPage.get("bannerTitle")).toHaveText("PIM");
+        await expect(dashboardPage.bannerTitle).toHaveText("PIM");
       }
     }
-  } //end of the for loop for passwords
-  await dashboardPage.get("firstNameTextBox").fill(dashboardPage.firstNameText);
-  await dashboardPage.get("middleNameTextBox").fill(dashboardPage.middleNameText);
-  await dashboardPage.get("lastNameTextBox").fill(dashboardPage.lastNameText);
-  await dashboardPage.get("employeeIDTextBox").fill(dashboardPage.employeeID);
+}
+
+  await dashboardPage.firstNameTextBox.fill(dashboardPage.firstNameText);
+  await dashboardPage.middleNameTextBox.fill(dashboardPage.middleNameText);
+  await dashboardPage.lastNameTextBox.fill(dashboardPage.lastNameText);
+  await dashboardPage.employeeIDTextBox.fill(dashboardPage.employeeID);
 
   await Promise.all([
     page.waitForNavigation(),
-    dashboardPage.get("submitButton").click(),
+    dashboardPage.submitButton.click(),
   ]);
 
   // Ensure that the new employee is saved in the system and their login credentials are valid
-  await expect(dashboardPage.get("employeeTitle")).toHaveText(
+  await expect(dashboardPage.employeeTitle).toHaveText(
     dashboardPage.firstNameText + " " + dashboardPage.lastNameText
   );
 
@@ -60,21 +61,19 @@ test("user_login", async ({ browser }) => {
   //Data Cleanup
   //click on employee list
   await Promise.all([
-    dashboardPage.get("employeeListButton").click(),
+    dashboardPage.employeeListButton.click(),
     page.waitForNavigation(),
   ]);
-  await dashboardPage.get("employeeIDTextBoxInEmployeeList").fill(
+  await dashboardPage.employeeIDTextBoxInEmployeeList.fill(
     dashboardPage.employeeID
   );
 
   //search for the employee
-  await dashboardPage.get("employeeSearchButton").highlight();
-  await dashboardPage.get("employeeSearchButton").hover();
-  await dashboardPage.get("employeeSearchButton").focus();
-  await dashboardPage.get("employeeSearchButton").click();
-  await page.waitForTimeout(1000);
-  await dashboardPage.get("employeeDeleteButton").click();
-  await dashboardPage.get("employeeDeleteConfirmation").click();
+  await dashboardPage.employeeSearchButton.focus();
+  await dashboardPage.employeeSearchButton.hover();
+  await dashboardPage.employeeSearchButton.click();
+  await dashboardPage.employeeDeleteButton.click();
+  await dashboardPage.employeeDeleteConfirmation.click();
 });
 
 /**

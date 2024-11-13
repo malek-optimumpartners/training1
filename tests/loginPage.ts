@@ -1,5 +1,4 @@
-import { Credential } from "./creditintial";
-import { Locator, Page } from "@playwright/test";
+import { Page,Locator } from "@playwright/test";
 
 export default class loginPage {
   private pageDomain: Page;
@@ -8,12 +7,6 @@ export default class loginPage {
   passwordTextBox: Locator;
   loginButton: Locator;
   invalidCredential: Locator;
-  credentialList: Credential[] = [
-    new Credential("Admin1", "passw", "fail"),
-    new Credential("Admin2", "password123", "fail"),
-    new Credential("User1", "userpass", "fail"),
-    new Credential("Admin", "admin123", "success"),
-  ];
 
   constructor(pageDomain: Page) {
     this.pageDomain = pageDomain;
